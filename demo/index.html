@@ -21,7 +21,7 @@
       $log.info('initialized demo app', window.performance.now())
 
       twerk
-        .get('./lorem-ipsum.txt')
+        .get('../demo/lorem-ipsum.json')
         .then(function (res) {
           console.info('success!', res.data)
         }, function (err) {

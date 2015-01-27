@@ -39,16 +39,24 @@ window.angular
 
   onmessage = function onMessage (e) {
 
-    console.info('twerkworker got message', e)
-
     var method = e.data[0].toLowerCase()
+
+    console.info('twerkworker got message', method, e.data.slice(1))
 
     if (!$http[method]) {
       throw new Error('HTTP method not supported')
       return
     }
 
-    $http[e.data[0]]
+    $http[method].apply($http, e.data.slice(1)).then(function (res) {
+
+      // var arr = new Float32Array(res.length)
+
+      postMessage(res, [res])
+
+    }, function (err) {
+      throw err
+    })
 
   }
 
