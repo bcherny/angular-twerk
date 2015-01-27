@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app="demo" ng-controller="demo as demo">
+<head>
+
+  <meta charset="utf8">
+
+  <title>angular-twerk demo</title>
+
+</head>
+
+<body>
+
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../src/twerk.js"></script>
+  <script>
+
+    angular
+    .module('demo', ['twerk'])
+    .controller('demo', function (twerk) {
+
+      twerk
+        .get('./lorem-ipsum.txt')
+        .then(function (res) {
+          console.info('success!', res.data)
+        }, function (err) {
+          console.error('error!', err)
+        })
+
+    })
+
+  </script>
+
+</body>
+</html>
