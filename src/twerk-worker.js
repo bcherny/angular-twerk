@@ -50,9 +50,7 @@ window.angular
 
     $http[method].apply($http, e.data.slice(1)).then(function (res) {
 
-      // var arr = new Float32Array(res.length)
-
-      postMessage(res, [res])
+      postMessage(JSON.stringify(res))
 
     }, function (err) {
       throw err

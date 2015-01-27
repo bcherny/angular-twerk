@@ -14,18 +14,43 @@
   <script src="../src/twerk.js"></script>
   <script>
 
+    var timeIt = true
+      , lastTime = window.performance.now() | 1
+      , times = []
+
+    function time() {
+      window.requestAnimationFrame(function() {
+        var t = window.performance.now() | 1
+        console.log(t - lastTime)
+        times.push(t - lastTime)
+        lastTime = t
+        if (timeIt === true) {
+          time()
+        } else {
+          console.log('average', times.reduce(function (prev, cur) { return prev+cur })/times.length | 1)
+        }
+      })
+    }
+
+    time()
+
     angular
     .module('demo', ['twerk'])
-    .controller('demo', function ($log, twerk) {
+    .controller('demo', function ($http, $log, twerk) {
 
       $log.info('initialized demo app', window.performance.now())
 
       twerk
         .get('../demo/lorem-ipsum.json')
         .then(function (res) {
-          console.info('success!', res.data)
+          console.time('parse')
+          console.info('success!', JSON.parse(res))
+          console.timeEnd('parse')
         }, function (err) {
           console.error('error!', err)
+        })
+        .finally(function() {
+          timeIt = false
         })
 
     })

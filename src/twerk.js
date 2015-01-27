@@ -12,7 +12,7 @@ angular
 
       worker.postMessage(['GET'].concat([].slice.call(arguments)))
       worker.onmessage = function onMessage (e) {
-        console.log('onMessage', e.data)
+        deferred.resolve(e.data)
       }
 
       return deferred.promise
