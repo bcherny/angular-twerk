@@ -16,7 +16,9 @@
 
     angular
     .module('demo', ['twerk'])
-    .controller('demo', function (twerk) {
+    .controller('demo', function ($log, twerk) {
+
+      $log.info('initialized demo app', window.performance.now())
 
       twerk
         .get('./lorem-ipsum.txt')

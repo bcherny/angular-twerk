@@ -1,3 +1,4 @@
+// mock stuff for angular
 var document = {
   addEventListener: function(){},
   createElement: function (){
@@ -11,25 +12,29 @@ var document = {
 }
 var window = {
   addEventListener: function(){},
+  console: this.console,
   document: document,
   location: {
-    href: {},
+    href: '',
+    url: ''
+  },
+  state: {},
+  history: {
     state: {}
-  }
+  },
+  url: {}
 }
 
-navigator.state = {}
-
-console.log(this)
+this.state = {}
 
 importScripts('../bower_components/angular/angular.js')
 
 // not this is a sandboxed module, and has no knowledge of the main twerk module
 window.angular
 .module('twerk', [])
-.run(function () {
+.run(function ($http, $log) {
 
-  console.log('init twerkworker')
+  console.info('initialized twerkworker', this.performance.now())
 
   onmessage = function onMessage (e) {
 
@@ -37,7 +42,9 @@ window.angular
 
   }
 
-})
+}.bind(this))
 
+// since the worker can't interact with the DOM,
+// we need to manually bootstrap our app
 window.angular
 .bootstrap(document, ['twerk'])
